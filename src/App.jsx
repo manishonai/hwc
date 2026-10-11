@@ -19,11 +19,11 @@ const TEXT = {
     house: 'Lahari',
     day: 'Friday',
     month: 'October',
-    pooja: 'Satyanarayana Pooja from 10 AM onwards',
+    pooja: 'Satyanarayana Pooja from 10 am onwards',
     venue: 'Address',
     address: ['No. 201, 3rd Floor, 6 Leela Nivas, Block 7,', 'Nagarabhavi, Bengaluru 560091'],
     landmark: 'Landmark: BCN Grandeur Convention Hall',
-    lunch: 'Lunch from 12:30 PM onwards',
+    lunch: 'Lunch from 12:30 pm onwards',
     scan: 'Scan for Location',
     qrAlt: 'QR code for the venue location',
     maps: 'Open in Maps',
@@ -53,11 +53,64 @@ const TEXT = {
 
 const lines = (parts) => parts.flatMap((part, i) => (i ? [<br key={i} />, part] : [part]))
 
+function Page({ lang }) {
+  const t = TEXT[lang]
+
+  return (
+    <article className="card" lang={lang}>
+      <img className="garland left" src={garlandLeft} alt="" width="310" height="790" />
+      <img className="garland right" src={garlandRight} alt="" width="308" height="790" />
+
+      <header>
+        <img className="ganesha" src={ganesha} alt="" width="160" height="180" />
+        <div className="deities">
+          <span>{t.deities[0]}</span>
+          <span>{t.deities[1]}</span>
+        </div>
+
+        <p className="lead">{t.lead}</p>
+        <h1>{t.title}</h1>
+
+        <p className="house">
+          <span className="home">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <path d="M7 31 32 10l25 21M14 26v27M50 26v27M5 53h54M42 18.400V11h6v12.400M26 53V41a6 6 0 0 1 12 0v12" />
+              <circle cx="32" cy="27" r="3" />
+            </svg>
+          </span>
+          <img src={lahari} alt={t.house} width="733" height="372" />
+        </p>
+      </header>
+      <div className="when">
+        <span>{t.day}</span>
+        <strong>23</strong>
+        <span className="pooja">{t.pooja}</span>
+      </div>
+      <p className="month">{t.month}</p>
+
+      <h2>{t.venue}</h2>
+      <address>{lines(t.address)}</address>
+      <p className="note">{t.landmark}</p>
+      <p className="note">{t.lunch}</p>
+
+      <h2>{t.scan}</h2>
+      <img className="qr" src={locationQr} alt={t.qrAlt} width="180" height="180" />
+      <a className="map" href={MAPS_URL} target="_blank" rel="noopener">
+        {t.maps}
+      </a>
+
+      <h2>{t.regards}</h2>
+      <p className="hosts">{t.hosts}</p>
+
+      <img className="cow" src={cowLotus} alt="" width="1068" height="402" />
+    </article>
+  )
+}
+
 export default function App() {
   const [lang, setLang] = useState(() =>
     new URLSearchParams(location.search).get('lang') === 'kn' ? 'kn' : 'en',
   )
-  const t = TEXT[lang]
 
   // Keeps the choice in the URL so a link can be shared in either language
   useEffect(() => {
@@ -75,53 +128,11 @@ export default function App() {
         ))}
       </nav>
 
-      <main className="card">
-        <img className="garland left" src={garlandLeft} alt="" width="310" height="790" />
-        <img className="garland right" src={garlandRight} alt="" width="308" height="790" />
-
-        <header>
-          <img className="ganesha" src={ganesha} alt="" width="160" height="180" />
-          <div className="deities">
-            <span>{t.deities[0]}</span>
-            <span>{t.deities[1]}</span>
-          </div>
-
-          <p className="lead">{t.lead}</p>
-          <h1>{t.title}</h1>
-
-          <p className="house">
-            <span className="home">
-              <svg viewBox="0 0 64 64" aria-hidden="true">
-                <path d="M7 31 32 10l25 21M14 26v27M50 26v27M5 53h54M42 18.400V11h6v12.400M26 53V41a6 6 0 0 1 12 0v12" />
-                <circle cx="32" cy="27" r="3" />
-              </svg>
-            </span>
-            <img src={lahari} alt={t.house} width="733" height="372" />
-          </p>
-        </header>
-        <div className="when">
-          <span>{t.day}</span>
-          <strong>23</strong>
-          <span className="pooja">{t.pooja}</span>
-        </div>
-        <p className="month">{t.month}</p>
-
-        <h2>{t.venue}</h2>
-        <address>{lines(t.address)}</address>
-        <p className="note">{t.landmark}</p>
-        <p className="note">{t.lunch}</p>
-
-        <h2>{t.scan}</h2>
-        <img className="qr" src={locationQr} alt={t.qrAlt} width="180" height="180" />
-        <br />
-        <a className="map" href={MAPS_URL} target="_blank" rel="noopener">
-          {t.maps}
-        </a>
-
-        <h2>{t.regards}</h2>
-        <p className="hosts">{t.hosts}</p>
-
-        <img className="cow" src={cowLotus} alt="" width="1068" height="402" />
+      {/* Open spread on wide screens; on narrow ones a single leaf that flips to the chosen side */}
+      <main className="booklet" data-side={lang}>
+        {Object.keys(LANGUAGES).map((code) => (
+          <Page key={code} lang={code} />
+        ))}
       </main>
     </>
   )

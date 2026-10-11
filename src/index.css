@@ -10,6 +10,7 @@
   display: grid;
   justify-items: center;
   gap: 16px;
+  perspective: 2400px;
 }
 body {
   min-height: 100vh;
@@ -44,12 +45,20 @@ body {
   background: var(--maroon);
   color: var(--paper);
 }
-.card {
-  position: relative;
+.booklet {
+  display: grid;
   width: 100%;
   max-width: 680px;
+}
+.card {
+  position: relative;
   --pad: 28px;
+  /* 1% of the card's width */
+  --u: 1cqw;
   container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 0 var(--pad);
   background: var(--paper);
   border: 1px solid var(--gold);
@@ -61,7 +70,7 @@ body {
 /* The artwork has a white ground, so multiply lets the card paper show through it */
 .garland, .cow, .ganesha { mix-blend-mode: multiply; pointer-events: none; }
 .ganesha {
-  width: clamp(52px, 16cqw, 96px);
+  width: clamp(52px, 16 * var(--u), 96px);
   height: auto;
   margin: 0 auto 10px;
 }
@@ -78,7 +87,7 @@ body {
   width: calc(100% + 2 * var(--pad));
   max-width: none;
   height: auto;
-  margin: 20px calc(-1 * var(--pad)) 0;
+  margin: auto calc(-1 * var(--pad)) 0;
 }
 
 /* Sits in the gap between the garlands and is at least as tall as they hang */
@@ -86,17 +95,20 @@ header {
   display: grid;
   align-content: center;
   width: 50%;
-  min-height: 80cqw;
+  min-height: calc(80 * var(--u));
   margin-inline: auto;
   padding-block: 28px 8px;
 }
+/* One line each: wider than the header column, so it is centred over it and sized to clear the garlands */
 .deities {
   display: grid;
+  justify-self: center;
   gap: 6px;
   line-height: 1.25;
-  font-size: .8rem;
-  letter-spacing: .08em;
+  font-size: clamp(.5rem, 2.75 * var(--u), .8rem);
+  letter-spacing: .04em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 .lead {
   margin-top: 24px;
@@ -106,7 +118,7 @@ header {
 }
 h1 {
   margin-top: 12px;
-  font-size: clamp(1.5rem, 9cqw, 3rem);
+  font-size: clamp(1.5rem, 9 * var(--u), 3rem);
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: .04em;
@@ -133,7 +145,7 @@ h1 {
 }
 .home::after { rotate: 180deg; }
 .home svg {
-  width: clamp(44px, 12cqw, 64px);
+  width: clamp(44px, 12 * var(--u), 64px);
   fill: none;
   stroke: var(--gold);
   stroke-width: 2;
@@ -144,6 +156,7 @@ h1 {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   gap: 32px;
+  width: 100%;
   max-width: 440px;
   margin: 4px auto 0;
 }
@@ -198,27 +211,86 @@ address { font-style: normal; }
   border-radius: 999px;
   background: var(--maroon);
   color: var(--paper);
-  font-family: Cinzel, "Noto Serif Kannada", Georgia, serif;
-  font-size: .85rem;
-  letter-spacing: .12em;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: .03em;
   text-decoration: none;
-  text-transform: uppercase;
 }
 .map:hover, .map:focus-visible { background: #5c0b17; }
-.hosts { font-size: 1.5rem; }
+.hosts { margin-bottom: 20px; font-size: 1.5rem; }
+
+/* Narrow screens: both sides share one leaf, back to back, and it turns to the chosen one */
+@media (max-width: 999.98px) {
+  .booklet { transform-style: preserve-3d; }
+  .booklet[data-side="kn"] { transform: rotateY(180deg); }
+  .card {
+    grid-area: 1 / 1;
+    backface-visibility: hidden;
+  }
+  .card:lang(kn) { transform: rotateY(180deg); }
+  /* Also keeps the far side out of the tab order and away from screen readers */
+  .booklet[data-side="en"] .card:lang(kn),
+  .booklet[data-side="kn"] .card:lang(en) { visibility: hidden; }
+}
+
+/* Wide screens: an open spread, English on the left and Kannada on the right */
+@media (min-width: 1000px) {
+  .languages { display: none; }
+  .booklet {
+    grid-template-columns: 1fr 1fr;
+    max-width: 1240px;
+  }
+  /* Both pages share the booklet's rows, so each line sits level with its translation.
+     17 = the header's 5 lines + the 12 blocks below it. */
+  .card {
+    /* A size container cannot be a subgrid, so the unit is derived from the booklet's width instead */
+    --u: min(6.2px, .5vw - .16px);
+    container-type: normal;
+    display: grid;
+    grid-row: span 17;
+    grid-template-rows: subgrid;
+    justify-items: center;
+  }
+  header {
+    grid-row: span 5;
+    grid-template-rows: subgrid;
+    min-height: 0;
+  }
+  /* The Kannada title is one line against two in English */
+  h1 { align-self: center; }
+  .card:first-child { border-radius: 6px 0 0 6px; }
+  .card:last-child {
+    border-left: 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .card::after {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    right: 0;
+    width: 48px;
+    background: linear-gradient(to left, rgba(122, 16, 32, .14), transparent);
+    pointer-events: none;
+  }
+  .card:last-child::after {
+    right: auto;
+    left: 0;
+    scale: -1 1;
+  }
+}
 
 /* Kannada glyphs are wider and taller than the Latin faces, and letter-spacing breaks up its conjuncts */
 .card:lang(kn) { font-size: .9em; }
 .card:lang(kn) * { letter-spacing: 0; }
 .card:lang(kn) h1 { line-height: 1.5; }
 .card:lang(kn) h2 { font-size: 1.25rem; line-height: 1.7; }
-.card:lang(kn) :is(.lead, .deities) { font-size: 1rem; }
+.card:lang(kn) .lead { font-size: 1rem; }
+.card:lang(kn) .deities { font-size: clamp(.6rem, 3.7 * var(--u), 1rem); }
 
 @media (max-width: 420px) {
   body { font-size: 1.1rem; }
   .card { --pad: 20px; }
   header { width: 54%; }
-  .deities { font-size: .68rem; letter-spacing: .02em; }
   .lead { font-size: .9rem; }
   .when { gap: 18px; }
   .when span { font-size: 1.05rem; }
@@ -227,11 +299,14 @@ address { font-style: normal; }
 }
 
 @media (max-width: 350px) {
-  .deities { font-size: .58rem; }
+
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .card { animation: fade .9s ease-out both; }
+  .booklet { transition: transform .9s ease-in-out; }
+  /* Swaps which side is reachable at the halfway point of the turn */
+  .card { transition: visibility 0s .45s; }
   header > * { animation: appear .8s ease-out both; }
   header > :nth-child(2) { animation-delay: .2s; }
   header > :nth-child(3) { animation-delay: .4s; }
