@@ -1,0 +1,231 @@
+:root {
+  --cream: #fdf8ee;
+  --paper: #fffdf7;
+  --maroon: #7a1020;
+  --gold: #b8892b;
+}
+* { box-sizing: border-box; margin: 0; }
+#root {
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+}
+body {
+  min-height: 100vh;
+  padding: 24px 16px;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 50% 0, #fff 0, var(--cream) 60%, #f6e9cf 100%);
+  color: var(--maroon);
+  font-family: "Cormorant Garamond", "Noto Serif Kannada", Georgia, serif;
+  font-size: 1.25rem;
+  line-height: 1.45;
+  font-variant-numeric: lining-nums;
+  text-align: center;
+  text-wrap: balance;
+}
+.languages {
+  display: flex;
+  border: 1px solid var(--maroon);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.languages button {
+  padding: 8px 20px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.languages button[aria-pressed="true"] {
+  background: var(--maroon);
+  color: var(--paper);
+}
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 680px;
+  --pad: 28px;
+  container-type: inline-size;
+  padding: 0 var(--pad);
+  background: var(--paper);
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  box-shadow: 0 12px 40px rgba(122, 16, 32, .12);
+  overflow: hidden;
+}
+
+/* The artwork has a white ground, so multiply lets the card paper show through it */
+.garland, .cow, .ganesha { mix-blend-mode: multiply; pointer-events: none; }
+.ganesha {
+  width: clamp(52px, 16cqw, 96px);
+  height: auto;
+  margin: 0 auto 10px;
+}
+.garland {
+  position: absolute;
+  top: 0;
+  width: 27%;
+  height: auto;
+}
+.garland.left { left: 0; }
+.garland.right { right: 0; }
+.cow {
+  display: block;
+  width: calc(100% + 2 * var(--pad));
+  max-width: none;
+  height: auto;
+  margin: 20px calc(-1 * var(--pad)) 0;
+}
+
+/* Sits in the gap between the garlands and is at least as tall as they hang */
+header {
+  display: grid;
+  align-content: center;
+  width: 50%;
+  min-height: 80cqw;
+  margin-inline: auto;
+  padding-block: 28px 8px;
+}
+.deities {
+  display: grid;
+  gap: 6px;
+  line-height: 1.25;
+  font-size: .8rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.lead {
+  margin-top: 24px;
+  font-size: 1.1rem;
+  line-height: 1.3;
+  letter-spacing: .03em;
+}
+h1 {
+  margin-top: 12px;
+  font-size: clamp(1.5rem, 9cqw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.house { margin: 24px 0 18px; }
+.house img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
+.home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.home::before, .home::after {
+  content: "";
+  width: 48px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold));
+}
+.home::after { rotate: 180deg; }
+.home svg {
+  width: clamp(44px, 12cqw, 64px);
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.when {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 32px;
+  max-width: 440px;
+  margin: 4px auto 0;
+}
+.when span {
+  display: grid;
+  place-items: center;
+  padding: 8px 0;
+  border-block: 1px solid var(--maroon);
+  font-size: 1.35rem;
+  letter-spacing: .04em;
+}
+.when .pooja {
+  font-size: 1.15rem;
+  line-height: 1.25;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.when strong {
+  align-self: center;
+  font-size: 4.5rem;
+  font-weight: 500;
+  line-height: 1;
+}
+.month {
+  margin-top: 8px;
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: .03em;
+}
+h2 {
+  margin: 44px 0 10px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: .03em;
+}
+h2::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 2px;
+  margin: 6px auto 0;
+  background: var(--gold);
+}
+address { font-style: normal; }
+.note { margin-top: 10px; }
+.qr { mix-blend-mode: multiply; }
+.map {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 28px;
+  border-radius: 999px;
+  background: var(--maroon);
+  color: var(--paper);
+  font-family: Cinzel, "Noto Serif Kannada", Georgia, serif;
+  font-size: .85rem;
+  letter-spacing: .12em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.map:hover, .map:focus-visible { background: #5c0b17; }
+.hosts { font-size: 1.5rem; }
+
+/* Kannada glyphs are wider and taller than the Latin faces, and letter-spacing breaks up its conjuncts */
+.card:lang(kn) { font-size: .9em; }
+.card:lang(kn) * { letter-spacing: 0; }
+.card:lang(kn) h1 { line-height: 1.5; }
+.card:lang(kn) h2 { font-size: 1.25rem; line-height: 1.7; }
+.card:lang(kn) :is(.lead, .deities) { font-size: 1rem; }
+
+@media (max-width: 420px) {
+  body { font-size: 1.1rem; }
+  .card { --pad: 20px; }
+  header { width: 54%; }
+  .deities { font-size: .68rem; letter-spacing: .02em; }
+  .lead { font-size: .9rem; }
+  .when { gap: 18px; }
+  .when span { font-size: 1.05rem; }
+  .when .pooja { font-size: .8rem; }
+  .when strong { font-size: 3.6rem; }
+}
+
+@media (max-width: 350px) {
+  .deities { font-size: .58rem; }
+}
