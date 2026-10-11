@@ -74,8 +74,8 @@ function Page({ lang }) {
         <p className="house">
           <span className="home">
             <svg viewBox="0 0 64 64" aria-hidden="true">
-              <path d="M7 31 32 10l25 21M14 26v27M50 26v27M5 53h54M42 18.400V11h6v12.400M26 53V41a6 6 0 0 1 12 0v12" />
-              <circle cx="32" cy="27" r="3" />
+              <path pathLength="1" d="M7 31 32 10l25 21M14 26v27M50 26v27M5 53h54M42 18.400V11h6v12.400M26 53V41a6 6 0 0 1 12 0v12" />
+              <circle pathLength="1" cx="32" cy="27" r="3" />
             </svg>
           </span>
           <img src={lahari} alt={t.house} width="733" height="372" />
