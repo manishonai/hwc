@@ -21,7 +21,7 @@ const TEXT = {
     month: 'October',
     pooja: 'Satyanarayana Pooja from 10 am onwards',
     venue: 'Address',
-    address: ['No. 201, 3rd Floor, 6 Leela Nivas, Block 7,', 'Nagarabhavi, Bengaluru 560091'],
+    address: ['No. 201, 3rd Floor,', '6 Leela Nivas, Block 7,', 'Nagarabhavi, Bengaluru 560091'],
     landmark: 'Landmark: BCN Grandeur Convention Hall',
     lunch: 'Lunch from 12:30 pm onwards',
     scan: 'Scan for Location',
@@ -39,7 +39,7 @@ const TEXT = {
     month: 'ಅಕ್ಟೋಬರ್',
     pooja: 'ಬೆಳಿಗ್ಗೆ 10 ರಿಂದ ಶ್ರೀ ಸತ್ಯನಾರಾಯಣ ಪೂಜೆ',
     venue: 'ವಿಳಾಸ',
-    address: ['ನಂ. 201, 3ನೇ ಮಹಡಿ, 6 ಲೀಲಾ ನಿವಾಸ, ಬ್ಲಾಕ್ 7,', 'ನಾಗರಭಾವಿ, ಬೆಂಗಳೂರು 560091'],
+    address: ['ನಂ. 201, 3ನೇ ಮಹಡಿ,', '6 ಲೀಲಾ ನಿವಾಸ, ಬ್ಲಾಕ್ 7,', 'ನಾಗರಭಾವಿ, ಬೆಂಗಳೂರು 560091'],
     // Hall name stays in Latin script so it matches the signboard and Maps
     landmark: 'Landmark: BCN Grandeur Convention Hall',
     lunch: 'ಮಧ್ಯಾಹ್ನ 12:30 ರಿಂದ ಭೋಜನ',
@@ -84,20 +84,24 @@ function Page({ lang }) {
       <div className="when">
         <span>{t.day}</span>
         <strong>23</strong>
-        <span className="pooja">{t.pooja}</span>
+        <span>{t.month}</span>
+        <p className="pooja">{t.pooja}</p>
       </div>
-      <p className="month">{t.month}</p>
 
-      <h2>{t.venue}</h2>
-      <address>{lines(t.address)}</address>
-      <p className="note">{t.landmark}</p>
-      <p className="note">{t.lunch}</p>
+      <section className="panel">
+        <h2>{t.venue}</h2>
+        <address>{lines(t.address)}</address>
+        <p className="note">{t.landmark}</p>
+        <p className="lunch">{t.lunch}</p>
+      </section>
 
-      <h2>{t.scan}</h2>
-      <img className="qr" src={locationQr} alt={t.qrAlt} width="180" height="180" />
-      <a className="map" href={MAPS_URL} target="_blank" rel="noopener">
-        {t.maps}
-      </a>
+      <section className="panel">
+        <h2>{t.scan}</h2>
+        <img className="qr" src={locationQr} alt={t.qrAlt} width="180" height="180" />
+        <a className="map" href={MAPS_URL} target="_blank" rel="noopener">
+          {t.maps}
+        </a>
+      </section>
 
       <h2>{t.regards}</h2>
       <p className="hosts">{t.hosts}</p>
@@ -109,13 +113,13 @@ function Page({ lang }) {
 
 export default function App() {
   const [lang, setLang] = useState(() =>
-    new URLSearchParams(location.search).get('lang') === 'kn' ? 'kn' : 'en',
+    new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'kn',
   )
 
   // Keeps the choice in the URL so a link can be shared in either language
   useEffect(() => {
     document.documentElement.lang = lang
-    history.replaceState(null, '', lang === 'en' ? location.pathname : '?lang=kn')
+    history.replaceState(null, '', lang === 'kn' ? location.pathname : '?lang=en')
   }, [lang])
 
   return (

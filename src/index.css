@@ -3,6 +3,8 @@
   --paper: #fffdf7;
   --maroon: #7a1020;
   --gold: #b8892b;
+  --wine: #5c0b17;
+  --gold-light: #f0d28a;
 }
 * { box-sizing: border-box; margin: 0; }
 #root {
@@ -17,8 +19,12 @@ body {
   padding: 24px 16px;
   display: grid;
   place-items: center;
-  background: radial-gradient(circle at 50% 0, #fff 0, var(--cream) 60%, #f6e9cf 100%);
+  /* Dark ground with a faint gold dot weave, so the pale card stands out like one laid on silk */
+  background:
+    radial-gradient(color-mix(in srgb, var(--gold) 28%, transparent) 1px, transparent 1.5px) 0 0 / 22px 22px,
+    radial-gradient(circle at 50% 0, #8f1a2c, var(--wine) 70%) fixed;
   color: var(--maroon);
+  font-weight: 600;
   font-family: "Cormorant Garamond", "Noto Serif Kannada", Georgia, serif;
   font-size: 1.25rem;
   line-height: 1.45;
@@ -28,8 +34,9 @@ body {
 }
 .languages {
   display: flex;
-  border: 1px solid var(--maroon);
+  border: 1px solid var(--gold);
   border-radius: 999px;
+  color: var(--cream);
   overflow: hidden;
 }
 .languages button {
@@ -42,13 +49,17 @@ body {
   cursor: pointer;
 }
 .languages button[aria-pressed="true"] {
-  background: var(--maroon);
-  color: var(--paper);
+  background: var(--cream);
+  color: var(--maroon);
 }
 .booklet {
   display: grid;
   width: 100%;
   max-width: 680px;
+  /* Second gold rule around the card, like the double border on a printed invitation */
+  outline: 1px solid var(--gold);
+  outline-offset: 5px;
+  border-radius: 6px;
 }
 .card {
   position: relative;
@@ -60,10 +71,10 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 0 var(--pad);
-  background: var(--paper);
+  background: radial-gradient(ellipse at 50% 35%, var(--paper) 40%, #fbf0d9);
   border: 1px solid var(--gold);
   border-radius: 6px;
-  box-shadow: 0 12px 40px rgba(122, 16, 32, .12);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .4);
   overflow: hidden;
 }
 
@@ -100,6 +111,24 @@ header {
   min-height: calc(80 * var(--u));
   margin-inline: auto;
   padding-block: 28px 8px;
+  position: relative;
+}
+/* Gold rays behind Ganesha, faded out before they reach the text below */
+header::after {
+  content: "";
+  position: absolute;
+  top: calc(28px + 9 * var(--u));
+  left: 50%;
+  width: calc(46 * var(--u));
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  background: repeating-conic-gradient(var(--gold) 0 1.2deg, transparent 1.2deg 9deg);
+  mask:
+    radial-gradient(closest-side, transparent 42%, #000 44%, transparent 94%),
+    linear-gradient(#000 50%, transparent 68%);
+  mask-composite: intersect;
+  opacity: .5;
+  pointer-events: none;
 }
 /* One line each: wider than the header column, so it is centred over it and sized to clear the garlands */
 .deities {
@@ -127,11 +156,13 @@ h1 {
   text-transform: uppercase;
 }
 .house { margin: 24px 0 18px; }
+/* Hangs below the garlands, so it can be wider than the column that has to fit between them */
 .house img {
   display: block;
-  width: 100%;
+  width: 136%;
+  max-width: none;
   height: auto;
-  margin-top: 10px;
+  margin: 10px -18% 0;
 }
 .home {
   display: flex;
@@ -154,39 +185,44 @@ h1 {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+/* A plaque, so the date is the first thing the eye lands on. Kept clear of the card's edges:
+   run full width, its maroon merges with the page behind and cuts the card in two */
 .when {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  gap: 32px;
+  align-items: center;
   width: 100%;
-  max-width: 440px;
-  margin: 4px auto 0;
+  max-width: 460px;
+  margin-top: 8px;
+  padding: 16px 6px;
+  background: linear-gradient(var(--maroon), var(--wine));
+  border: 3px double var(--gold);
+  border-radius: 18px;
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--maroon) 25%, transparent);
+  color: var(--cream);
 }
 .when span {
-  display: grid;
-  place-items: center;
-  padding: 8px 0;
-  border-block: 1px solid var(--maroon);
-  font-size: 1.35rem;
-  letter-spacing: .04em;
-}
-.when .pooja {
-  font-size: 1.15rem;
-  line-height: 1.25;
-  letter-spacing: 0;
-  text-transform: none;
-}
-.when strong {
-  align-self: center;
-  font-size: 4.5rem;
-  font-weight: 500;
-  line-height: 1;
-}
-.month {
-  margin-top: 8px;
-  font-size: 1.9rem;
+  padding-inline: 6px;
+  /* Scales with the card, so the words never reach the rules beside the date at any width */
+  font-size: clamp(1rem, 7 * var(--u), 1.6rem);
   font-weight: 700;
   letter-spacing: .03em;
+}
+.when strong {
+  /* Gives way on narrow cards so the day and month can stay large */
+  padding-inline: clamp(10px, 3.5 * var(--u), 22px);
+  border-inline: 1px solid var(--gold);
+  color: var(--gold-light);
+  font-size: clamp(2.8rem, 16 * var(--u), 4.2rem);
+  font-weight: 700;
+  line-height: 1;
+}
+.pooja {
+  grid-column: 1 / -1;
+  margin-top: 14px;
+  color: var(--gold-light);
+  font-size: 1.2rem;
+  letter-spacing: .02em;
 }
 h2 {
   margin: 44px 0 10px;
@@ -198,14 +234,57 @@ h2 {
 h2::after {
   content: "";
   display: block;
-  width: 48px;
-  height: 2px;
-  margin: 6px auto 0;
+  width: 132px;
+  height: 10px;
+  margin: 8px auto 0;
   background: var(--gold);
+  /* Two rules meeting at a diamond */
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 132 10'%3E%3Cpath d='M0 4.500h54v1H0zM78 4.500h54v1H78zM66 0l5 5-5 5-5-5z'/%3E%3C/svg%3E");
 }
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 460px;
+  margin-top: 52px;
+  padding: 0 18px 26px;
+  background: var(--paper);
+  border: 1px solid var(--gold);
+  border-radius: 18px;
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--maroon) 12%, transparent);
+}
+/* The heading rides the panel's top edge as a tab */
+.panel h2 {
+  margin: -21px 0 18px;
+  padding: 7px 26px;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  background: linear-gradient(var(--maroon), var(--wine));
+  color: var(--cream);
+  font-size: 1.25rem;
+}
+.panel h2::after { content: none; }
 address { font-style: normal; }
 .note { margin-top: 10px; }
-.qr { mix-blend-mode: multiply; }
+.lunch {
+  margin-top: 18px;
+  padding: 6px 22px;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--gold) 12%, transparent);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.qr {
+  width: 172px;
+  height: auto;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid var(--gold);
+  border-radius: 14px;
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--maroon) 14%, transparent);
+}
 .map {
   display: inline-block;
   margin-top: 20px;
@@ -218,8 +297,8 @@ address { font-style: normal; }
   letter-spacing: .03em;
   text-decoration: none;
 }
-.map:hover, .map:focus-visible { background: #5c0b17; }
-.hosts { margin-bottom: 20px; font-size: 1.5rem; }
+.map:hover, .map:focus-visible { background: var(--wine); }
+.hosts { margin-bottom: 20px; font-size: 1.7rem; font-weight: 700; }
 
 /* Narrow screens: both sides share one leaf, back to back, and it turns to the chosen one */
 @media (max-width: 999.98px) {
@@ -230,6 +309,8 @@ address { font-style: normal; }
     backface-visibility: hidden;
   }
   .card:lang(kn) { transform: rotateY(180deg); }
+  /* Nobody can scan their own screen, so here the Maps button leads and the code steps back */
+  .qr { width: 132px; }
   /* Also keeps the far side out of the tab order and away from screen readers */
   .booklet[data-side="en"] .card:lang(kn),
   .booklet[data-side="kn"] .card:lang(en) { visibility: hidden; }
@@ -243,13 +324,13 @@ address { font-style: normal; }
     max-width: 1240px;
   }
   /* Both pages share the booklet's rows, so each line sits level with its translation.
-     17 = the header's 5 lines + the 12 blocks below it. */
+     16 = the header's 5 lines + the 11 below it, counting each panel's lines. */
   .card {
     /* A size container cannot be a subgrid, so the unit is derived from the booklet's width instead */
     --u: min(6.2px, .5vw - .16px);
     container-type: normal;
     display: grid;
-    grid-row: span 17;
+    grid-row: span 16;
     grid-template-rows: subgrid;
     justify-items: center;
   }
@@ -260,6 +341,13 @@ address { font-style: normal; }
   }
   /* The Kannada title is one line against two in English */
   h1 { align-self: center; }
+  .panel {
+    display: grid;
+    grid-row: span 4;
+    grid-template-rows: subgrid;
+    justify-items: center;
+  }
+  .panel ~ .panel { grid-row: span 3; }
   .card:first-child { border-radius: 6px 0 0 6px; }
   .card:last-child {
     border-left: 0;
@@ -282,26 +370,30 @@ address { font-style: normal; }
 }
 
 /* Kannada glyphs are wider and taller than the Latin faces, and letter-spacing breaks up its conjuncts */
-.card:lang(kn) { font-size: .9em; }
+/* Only 500 and 700 are loaded for Kannada, and 600 would round up to bold */
+.card:lang(kn) { font-size: .9em; font-weight: 500; }
 .card:lang(kn) * { letter-spacing: 0; }
 .card:lang(kn) h1 { line-height: 1.5; }
 .card:lang(kn) h2 { font-size: 1.25rem; line-height: 1.7; }
 .card:lang(kn) .lead { font-size: 1rem; }
+/* Wider words than Friday and October */
+.card:lang(kn) .when span { font-size: clamp(.9rem, 6.6 * var(--u), 1.4rem); }
 .card:lang(kn) .deities { font-size: clamp(.6rem, 3.7 * var(--u), 1rem); }
 
 @media (max-width: 420px) {
-  body { font-size: 1.1rem; }
-  .card { --pad: 20px; }
+  /* Slim margins: on a phone the width is worth more as card than as surround */
+  body { padding: 14px 10px; font-size: 1.15rem; }
+  .card { --pad: 18px; }
   header { width: 54%; }
-  .lead { font-size: .9rem; }
-  .when { gap: 18px; }
-  .when span { font-size: 1.05rem; }
-  .when .pooja { font-size: .8rem; }
-  .when strong { font-size: 3.6rem; }
+  .lead { font-size: .95rem; }
+  .pooja { font-size: 1.05rem; }
+  .lunch { padding-inline: 16px; }
 }
 
 @media (max-width: 350px) {
-
+  body { font-size: 1.05rem; }
+  .panel { padding-inline: 10px; }
+  .lunch { padding-inline: 12px; font-size: .95em; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -315,7 +407,6 @@ address { font-style: normal; }
   header > :nth-child(4) { animation-delay: .6s; }
   header > :nth-child(5) { animation-delay: .9s; }
   /* Soft halo behind Ganesha, like lamp light */
-  header { position: relative; }
   header::before {
     content: "";
     position: absolute;
