@@ -229,3 +229,20 @@ address { font-style: normal; }
 @media (max-width: 350px) {
   .deities { font-size: .58rem; }
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  .card { animation: appear .9s ease-out both; }
+  .garland {
+    transform-origin: top;
+    animation: sway 7s ease-in-out infinite alternate;
+  }
+  /* Half a cycle apart so the two sides do not swing in lockstep */
+  .garland.right { animation-delay: -3.5s; }
+}
+@keyframes appear {
+  from { opacity: 0; translate: 0 12px; }
+}
+@keyframes sway {
+  from { rotate: -.6deg; }
+  to { rotate: .6deg; }
+}
