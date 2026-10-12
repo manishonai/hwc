@@ -15,7 +15,7 @@ const TEXT = {
   en: {
     deities: ['Shri Mahalingeshwara Swamy Krupe', 'Shri Lakshmi Devi Krupe'],
     lead: 'We are delighted to invite you to the auspicious occasion of our',
-    title: 'House Warming',
+    title: 'House Warming Ceremony',
     house: 'Lahari',
     day: 'Friday',
     month: 'October',
@@ -78,15 +78,15 @@ function Page({ lang }) {
               <circle pathLength="1" cx="32" cy="27" r="3" />
             </svg>
           </span>
-          <img src={lahari} alt={t.house} width="733" height="372" />
+          {lang === 'en' ? <img src={lahari} alt={t.house} width="733" height="372" /> : <b>{t.house}</b>}
         </p>
       </header>
       <div className="when">
         <span>{t.day}</span>
         <strong>23</strong>
-        <span>{t.month}</span>
-        <p className="pooja">{t.pooja}</p>
+        <span className="pooja">{t.pooja}</span>
       </div>
+      <p className="month">{t.month}</p>
 
       <section className="panel">
         <h2>{t.venue}</h2>

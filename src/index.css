@@ -4,7 +4,6 @@
   --maroon: #7a1020;
   --gold: #b8892b;
   --wine: #5c0b17;
-  --gold-light: #f0d28a;
 }
 * { box-sizing: border-box; margin: 0; }
 #root {
@@ -164,6 +163,19 @@ h1 {
   height: auto;
   margin: 10px -18% 0;
 }
+/* The painted name is Latin script, so the Kannada side sets its own in a brush-like face */
+.house b {
+  display: block;
+  margin: 10px -18% 0;
+  background: linear-gradient(170deg, #a51d33, var(--maroon) 45%, var(--wine));
+  background-clip: text;
+  color: transparent;
+  font-family: "Akaya Kanadaka", "Noto Serif Kannada", serif;
+  font-size: clamp(3.4rem, 24 * var(--u), 9rem);
+  font-weight: 400;
+  line-height: 1.35;
+  white-space: nowrap;
+}
 .home {
   display: flex;
   align-items: center;
@@ -185,44 +197,38 @@ h1 {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-/* A plaque, so the date is the first thing the eye lands on. Kept clear of the card's edges:
-   run full width, its maroon merges with the page behind and cuts the card in two */
 .when {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  align-items: center;
+  gap: 32px;
   width: 100%;
-  max-width: 460px;
-  margin-top: 8px;
-  padding: 16px 6px;
-  background: linear-gradient(var(--maroon), var(--wine));
-  border: 3px double var(--gold);
-  border-radius: 18px;
-  box-shadow: 0 10px 28px color-mix(in srgb, var(--maroon) 25%, transparent);
-  color: var(--cream);
+  max-width: 440px;
+  margin: 4px auto 0;
 }
 .when span {
-  padding-inline: 6px;
-  /* Scales with the card, so the words never reach the rules beside the date at any width */
-  font-size: clamp(1rem, 7 * var(--u), 1.6rem);
-  font-weight: 700;
-  letter-spacing: .03em;
+  display: grid;
+  place-items: center;
+  padding: 8px 0;
+  border-block: 1px solid var(--maroon);
+  font-size: 1.35rem;
+  letter-spacing: .04em;
+}
+.when .pooja {
+  font-size: 1rem;
+  line-height: 1.25;
+  letter-spacing: 0;
 }
 .when strong {
-  /* Gives way on narrow cards so the day and month can stay large */
-  padding-inline: clamp(10px, 3.5 * var(--u), 22px);
-  border-inline: 1px solid var(--gold);
-  color: var(--gold-light);
-  font-size: clamp(2.8rem, 16 * var(--u), 4.2rem);
-  font-weight: 700;
+  align-self: center;
+  font-size: 4.5rem;
+  font-weight: 600;
   line-height: 1;
 }
-.pooja {
-  grid-column: 1 / -1;
-  margin-top: 14px;
-  color: var(--gold-light);
-  font-size: 1.2rem;
-  letter-spacing: .02em;
+.month {
+  margin-top: 8px;
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: .03em;
 }
 h2 {
   margin: 44px 0 10px;
@@ -324,13 +330,13 @@ address { font-style: normal; }
     max-width: 1240px;
   }
   /* Both pages share the booklet's rows, so each line sits level with its translation.
-     16 = the header's 5 lines + the 11 below it, counting each panel's lines. */
+     17 = the header's 5 lines + the 12 below it, counting each panel's lines. */
   .card {
     /* A size container cannot be a subgrid, so the unit is derived from the booklet's width instead */
     --u: min(6.2px, .5vw - .16px);
     container-type: normal;
     display: grid;
-    grid-row: span 16;
+    grid-row: span 17;
     grid-template-rows: subgrid;
     justify-items: center;
   }
@@ -376,8 +382,6 @@ address { font-style: normal; }
 .card:lang(kn) h1 { line-height: 1.5; }
 .card:lang(kn) h2 { font-size: 1.25rem; line-height: 1.7; }
 .card:lang(kn) .lead { font-size: 1rem; }
-/* Wider words than Friday and October */
-.card:lang(kn) .when span { font-size: clamp(.9rem, 6.6 * var(--u), 1.4rem); }
 .card:lang(kn) .deities { font-size: clamp(.6rem, 3.7 * var(--u), 1rem); }
 
 @media (max-width: 420px) {
@@ -386,7 +390,10 @@ address { font-style: normal; }
   .card { --pad: 18px; }
   header { width: 54%; }
   .lead { font-size: .95rem; }
-  .pooja { font-size: 1.05rem; }
+  .when { gap: 14px; }
+  .when span { font-size: 1.05rem; }
+  .when .pooja { font-size: .85rem; }
+  .when strong { font-size: 3.6rem; }
   .lunch { padding-inline: 16px; }
 }
 
