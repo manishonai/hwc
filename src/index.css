@@ -147,8 +147,12 @@ header::after {
   letter-spacing: .03em;
 }
 h1 {
+  /* One word per line. "Ceremony" is wider than the column, so the heading is sized to its
+     longest word and centred, letting it overhang both sides equally instead of only the right */
+  width: min-content;
+  justify-self: center;
   margin-top: 12px;
-  font-size: clamp(1.5rem, 9 * var(--u), 3rem);
+  font-size: clamp(1.5rem, 8.6 * var(--u), 3rem);
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: .04em;
