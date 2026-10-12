@@ -171,9 +171,6 @@ h1 {
 .house b {
   display: block;
   margin: 10px -18% 0;
-  background: linear-gradient(170deg, #a51d33, var(--maroon) 45%, var(--wine));
-  background-clip: text;
-  color: transparent;
   font-family: "Akaya Kanadaka", "Noto Serif Kannada", serif;
   font-size: clamp(3.4rem, 24 * var(--u), 9rem);
   font-weight: 400;

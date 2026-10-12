@@ -1,5 +1,7 @@
-// Renders each language side of the running site to share/ as a one-page PDF (Maps link stays clickable) and a JPEG.
+// Renders each language side of the running site to share/ as a one-page PDF (Maps link stays clickable) and a JPEG,
+// plus one PDF holding both sides. Needs qpdf for that last step.
 // Usage: npm run export [site URL]
+import { execFileSync } from 'node:child_process'
 import { mkdir } from 'node:fs/promises'
 import puppeteer from 'puppeteer-core'
 
@@ -37,3 +39,7 @@ try {
 } finally {
   await browser.close()
 }
+
+// Kannada first, as on the site
+const pdf = (name) => `share/House-Warming-Invitation-${name}.pdf`
+execFileSync('qpdf', ['--empty', '--pages', pdf('Kannada'), pdf('English'), '--', pdf('Kannada-English')])
