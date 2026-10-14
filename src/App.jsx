@@ -19,7 +19,7 @@ const TEXT = {
     house: 'Lahari',
     day: 'Friday',
     month: 'October',
-    pooja: 'Satyanarayana Pooja from 10 am onwards',
+    pooja: 'Sri Satyanarayana Swamy Pooja from 10 am onwards',
     venue: 'Address',
     address: ['No. 201, 3rd Floor,', '6 Leela Nivas, Block 7,', 'Nagarabhavi, Bengaluru 560091'],
     landmark: 'Landmark: BCN Grandeur Convention Hall',
@@ -37,7 +37,7 @@ const TEXT = {
     house: 'ಲಹರಿ',
     day: 'ಶುಕ್ರವಾರ',
     month: 'ಅಕ್ಟೋಬರ್',
-    pooja: 'ಬೆಳಿಗ್ಗೆ 10 ರಿಂದ ಶ್ರೀ ಸತ್ಯನಾರಾಯಣ ಪೂಜೆ',
+    pooja: 'ಬೆಳಿಗ್ಗೆ 10 ರಿಂದ ಶ್ರೀ ಸತ್ಯನಾರಾಯಣ ಸ್ವಾಮಿ ಪೂಜೆ',
     venue: 'ವಿಳಾಸ',
     address: ['ನಂ. 201, 3ನೇ ಮಹಡಿ,', '6 ಲೀಲಾ ನಿವಾಸ, ಬ್ಲಾಕ್ 7,', 'ನಾಗರಭಾವಿ, ಬೆಂಗಳೂರು 560091'],
     // Hall name stays in Latin script so it matches the signboard and Maps

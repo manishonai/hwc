@@ -402,6 +402,10 @@ address { font-style: normal; }
   body { font-size: 1.05rem; }
   .panel { padding-inline: 10px; }
   .lunch { padding-inline: 12px; font-size: .95em; }
+  /* Room for the long pooja name beside the date */
+  .when { gap: 8px; }
+  .when strong { font-size: 3rem; }
+  .when .pooja { font-size: .78rem; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
